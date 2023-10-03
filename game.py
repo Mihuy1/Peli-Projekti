@@ -1,3 +1,6 @@
+import random
+import story
+
 import mysql.connector
 
 connection = mysql.connector.connect(
@@ -49,3 +52,9 @@ def new_game(player, place, t_limit, money, a_ports):
 
 
 airports = get_airports()
+
+storyDialog = input('Do you want to read the background story? (Y/N): ')
+if storyDialog == 'Y':
+    # print wrapped string line by line
+    for line in story.getStory():
+        print(line)
