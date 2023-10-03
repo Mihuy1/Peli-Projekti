@@ -55,6 +55,5 @@ airports = get_airports()
 
 storyDialog = input('Do you want to read the background story? (Y/N): ')
 if storyDialog == 'Y':
-    # print wrapped string line by line
     for line in story.getStory():
         print(line)
