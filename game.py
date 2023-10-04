@@ -2,6 +2,8 @@ import random
 import story
 import mysql.connector
 
+from geopy import distance
+
 connection = mysql.connector.connect(
          host='127.0.0.1',
          port= 3306,
@@ -50,8 +52,9 @@ def new_game(player, place, t_limit, money, a_ports):
     random.shuffle(e_ports)
 
 
-airports = get_airports()
+#airports = get_airports()
 
+# Get information about airport
 def get_airport_info(icao):
     sql=f'''SELECT iso_country, ident, name, latitude_deg, longitude_deg
             FROM airport
@@ -65,7 +68,13 @@ def get_airport_info(icao):
 
 
 def airport_distance(current, target):
-    return
+    start = get_airport_info(current)[0]  # Access the first (and only) item in the list
+    print(start)
+    end = get_airport_info(target)[0]  # Access the first (and only) item in the list
+    start_coords = (start['latitude_deg'], start['longitude_deg'])
+    end_coords = (end['latitude_deg'], end['longitude_deg'])
+    return distance.distance(start_coords, end_coords).km
+
 
 
 storyDialog = input('Do you want to read the background story? (Y/N): ')
