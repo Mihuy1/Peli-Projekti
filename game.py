@@ -1,6 +1,5 @@
 import random
 import story
-
 import mysql.connector
 
 connection = mysql.connector.connect(
@@ -52,6 +51,22 @@ def new_game(player, place, t_limit, money, a_ports):
 
 
 airports = get_airports()
+
+def get_airport_info(icao):
+    sql=f'''SELECT iso_country, ident, name, latitude_deg, longitude_deg
+            FROM airport
+            WHERE ident = %s'''
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute(sql, (icao,))
+    result = cursor.fetchall()
+
+    return result
+
+
+
+def airport_distance(current, target):
+    return
+
 
 storyDialog = input('Do you want to read the background story? (Y/N): ')
 if storyDialog == 'Y':
