@@ -13,12 +13,12 @@ connection = mysql.connector.connect(
          autocommit=True
          )
 
-def airports():
+def get_airports():
     sql = """SELECT iso_country, ident, name, type
     FROM airport
     WHERE type='large_airport'
     ORDER by RAND()
-    LIMIT 20;"""                                  #?
+    LIMIT 21;"""                                  #?
     cursor = connection.cursor(dictionary=True)
     cursor.execute(sql)
     result = cursor.fetchall()
@@ -36,6 +36,7 @@ def new_game(player, place, t_limit, money, a_ports):
     sql = """INSERT INTO game (name, location, time, bank) VALUES (%s, %s, %s, %s);"""
     cursor = connection.cursor(dictionary=True)
     cursor.execute(sql, (player, place, t_limit, money))
+    g_id = cursor.lastrowid
 
     events = get_events()
     event_id = {1: 0.3, 2: 0.2, 3: 0.4, 4: 0.1}
@@ -51,8 +52,14 @@ def new_game(player, place, t_limit, money, a_ports):
     e_ports = a_ports[1:].copy()
     random.shuffle(e_ports)
 
+    for i, event_id in enumerate(id_list):
+        sql = "INSERT INTO events (location, event_id, game_id) VALUES (%s, %s, %s);"
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(sql, (e_ports[i]['ident'], event_id, g_id))
+    return g_id
 
-#airports = get_airports()
+
+airports = get_airports()
 
 # Get information about airport
 def get_airport_info(icao):
@@ -81,3 +88,5 @@ storyDialog = input('Do you want to read the background story? (Y/N): ')
 if storyDialog == 'Y':
     for line in story.getStory():
         print(line)
+
+new_game("Jukka", "NZSP", 5, 10000, airports)
