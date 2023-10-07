@@ -9,7 +9,7 @@ connection = mysql.connector.connect(
          port= 3306,
          database='flight_game',
          user='root',
-         password='',
+         password='6661507',
          autocommit=True
          )
 
@@ -84,9 +84,47 @@ def airport_distance(current, target):
 
 
 
+
+def update_location(icao, g_id, time, money):
+    sql = f'''UPDATE game SET location = %, name = %, time = %, bank = % '''
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute(sql, (icao, g_id, time, money))
+
+
+
 storyDialog = input('Do you want to read the background story? (Y/N): ')
 if storyDialog == 'Y':
     for line in story.getStory():
         print(line)
 
+print('When you are ready to start, ')
+player = input('type player name: ')
+t_limit = 0
+while True:
+    pet=input('What pet did you bring with you? Cat or dog?')
+    if pet == "cat":
+        t_limit = 10
+        break
+    elif pet == "dog":
+        t_limit = 7
+        break
+    else:
+        print('Sorry, you can only take a cat or a dog.')
+
+# boolean for game over and win
+game_over = False
+win = False
+money = 10000
+score = 0
+pet_found = False
+
+# all airports
+airports = get_airports()
+# start_airport ident
+s_airport = airports[0]['ident']
+
+# current airport
+current_airport = s_airport
+
+game_id = new_game(player, s_airport, t_limit, money, airports)
 new_game("Jukka", "NZSP", 5, 10000, airports)
