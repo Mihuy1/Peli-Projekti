@@ -9,7 +9,7 @@ connection = mysql.connector.connect(
          port= 3306,
          database='flight_game',
          user='root',
-         password='6661507',
+         password='',
          autocommit=True
          )
 
@@ -82,7 +82,18 @@ def airport_distance(current, target):
     end_coords = (end['latitude_deg'], end['longitude_deg'])
     return distance.distance(start_coords, end_coords).km
 
-
+def check_event(g_id, cur_airport):
+    sql = f'''SELECT events.id, event.id as event_id, events.game_id
+    FROM events
+    JOIN event ON event.id = events.event_id 
+    WHERE game_id = %s 
+    AND location = %s'''
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute(sql, (g_id, cur_airport))
+    result = cursor.fetchone()
+    if result is None:
+        return False
+    return result
 
 
 def update_location(icao, g_id, time, money):
@@ -127,4 +138,23 @@ s_airport = airports[0]['ident']
 current_airport = s_airport
 
 game_id = new_game(player, s_airport, t_limit, money, airports)
-new_game("Jukka", "NZSP", 5, 10000, airports)
+
+# GAME LOOP
+while not game_over:
+    # get current airport info
+    airport = get_airport_info(current_airport)
+    # show game status
+    print(f'''You are at {airport[0]['name']}.''')
+    print(f'''You have {money:.0f}$ and {t_limit} days left to find a {pet}.''')
+    # pause
+    input('\033[32mPress Enter to continue...\033[0m')
+    # if airport has goal ask if player wants to open it
+    # check goal type and add/subtract money accordingly
+    event = check_event(game_id, current_airport)
+
+
+
+
+
+
+
