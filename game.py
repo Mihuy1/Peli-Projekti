@@ -8,8 +8,8 @@ connection = mysql.connector.connect(
          host='127.0.0.1',
          port= 3306,
          database='flight_game',
-         user='root',
-         password='',
+         user='patrik',
+         password='123',
          autocommit=True
          )
 
@@ -59,7 +59,10 @@ def new_game(player, place, t_limit, money, a_ports):
     return g_id
 
 
+
 airports = get_airports()
+
+new_game('Patrik', 'EFHK', 1000, 10000, airports)
 
 # Get information about airport
 def get_airport_info(icao):
@@ -98,7 +101,7 @@ def check_event(g_id, cur_airport):
 
 def update_location(icao, g_id, time, money):
     sql = f'''UPDATE game SET location = %, name = %, time = %, bank = % '''
-    cursor = conn.cursor(dictionary=True)
+    cursor = connection.cursor(dictionary=True)
     cursor.execute(sql, (icao, g_id, time, money))
 
 
@@ -152,6 +155,31 @@ while not game_over:
     # if airport has goal ask if player wants to open it
     # check goal type and add/subtract money accordingly
     event = check_event(game_id, current_airport)
+
+    if event:
+        event_id = event.get('id', None)
+
+        if event_id == 1:
+            if 'min' in event and 'max' in event:
+                money -= random.randint(event['min'], event['max'])
+        elif event_id == 2:
+            print("Myrsky!") # TODO: Hidasta lento.
+        elif event_id == 3:
+            if 'min' in event and 'max' in event:
+                money += random.randint(event['min'], event['max'])
+        elif event_id == 4:
+            pass  # Do nothing for event ID 4
+        elif event_id == 5:
+            print("Lemmikki löytyi!")
+            win = True
+
+
+
+
+
+
+
+
 
 
 
