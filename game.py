@@ -147,12 +147,9 @@ while not game_over:
     # show game status
     print(f'''You are at {airport[0]['name']}.''')
     print(f'''You have {money:.0f}$ and {t_limit} hours left to find a {pet}.''')
-    # pause
-    input('\033[32mPress Enter to continue...\033[0m')
-    # if airport has goal ask if player wants to open it
-    # check goal type and add/subtract money accordingly
-    event = check_event(game_id, current_airport)
-
+    print('Your pet is in one of these airports:')
+    for i in range(len(all_airports)):
+        print(f'{i + 1}. {all_airports[i]["name"]}')
 
 
 
