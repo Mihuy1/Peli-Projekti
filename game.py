@@ -114,10 +114,10 @@ t_limit = 0
 while True:
     pet=input('What pet did you bring with you? Cat or dog?')
     if pet == "cat":
-        t_limit = 10
+        t_limit = 240
         break
     elif pet == "dog":
-        t_limit = 7
+        t_limit = 168
         break
     else:
         print('Sorry, you can only take a cat or a dog.')
@@ -146,7 +146,7 @@ while not game_over:
     airport = get_airport_info(current_airport)
     # show game status
     print(f'''You are at {airport[0]['name']}.''')
-    print(f'''You have {money:.0f}$ and {t_limit} days left to find a {pet}.''')
+    print(f'''You have {money:.0f}$ and {t_limit} hours left to find a {pet}.''')
     # pause
     input('\033[32mPress Enter to continue...\033[0m')
     # if airport has goal ask if player wants to open it
