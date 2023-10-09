@@ -126,6 +126,7 @@ while True:
 game_over = False
 win = False
 money = 10000
+p_range = money*4
 score = 0
 pet_found = False
 
