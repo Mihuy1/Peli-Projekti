@@ -59,6 +59,7 @@ def new_game(player, place, t_limit, money, a_ports):
     return g_id
 
 
+
 airports = get_airports()
 
 # Get information about airport
@@ -71,8 +72,6 @@ def get_airport_info(icao):
     result = cursor.fetchall()
 
     return result
-
-
 
 def airport_distance(current, target):
     start = get_airport_info(current)[0]  # Access the first (and only) item in the list
@@ -98,7 +97,7 @@ def check_event(g_id, cur_airport):
 
 def update_location(icao, g_id, time, money):
     sql = f'''UPDATE game SET location = %, name = %, time = %, bank = % '''
-    cursor = conn.cursor(dictionary=True)
+    cursor = connection.cursor(dictionary=True)
     cursor.execute(sql, (icao, g_id, time, money))
 
 
@@ -147,6 +146,29 @@ while not game_over:
     # show game status
     print(f'''You are at {airport[0]['name']}.''')
     print(f'''You have {money:.0f}$ and {t_limit} hours left to find a {pet}.''')
+    # pause
+    input('\033[32mPress Enter to continue...\033[0m')
+    # if airport has goal ask if player wants to open it
+    # check goal type and add/subtract money accordingly
+    event = check_event(game_id, current_airport)
+
+    if event:
+        event_id = event.get('id', None)
+
+        if event_id == 1:
+            if 'min' in event and 'max' in event:
+                money -= random.randint(event['min'], event['max'])
+        elif event_id == 2:
+            print("Myrsky!") # TODO: Hidasta seuraava lento
+        elif event_id == 3:
+            if 'min' in event and 'max' in event:
+                money += random.randint(event['min'], event['max'])
+        elif event_id == 4:
+            pass  # Do nothing for event 4
+        elif event_id == 5:
+            print("Lemmikki löytyi!")
+            win = True
+
     print('Your pet is in one of these airports:')
     for i in range(len(all_airports)):
         print(f'{i + 1}. {all_airports[i]["name"]}')
