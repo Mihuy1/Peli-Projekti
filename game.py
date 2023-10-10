@@ -8,8 +8,8 @@ connection = mysql.connector.connect(
          host='127.0.0.1',
          port= 3306,
          database='flight_game',
-         user='patrik',
-         password='123',
+         user='',
+         password='',
          autocommit=True
          )
 
@@ -74,8 +74,6 @@ def get_airport_info(icao):
     result = cursor.fetchall()
 
     return result
-
-
 
 def airport_distance(current, target):
     start = get_airport_info(current)[0]  # Access the first (and only) item in the list
@@ -163,12 +161,12 @@ while not game_over:
             if 'min' in event and 'max' in event:
                 money -= random.randint(event['min'], event['max'])
         elif event_id == 2:
-            print("Myrsky!") # TODO: Hidasta lento.
+            print("Myrsky!") # TODO: Hidasta seuraava lento
         elif event_id == 3:
             if 'min' in event and 'max' in event:
                 money += random.randint(event['min'], event['max'])
         elif event_id == 4:
-            pass  # Do nothing for event ID 4
+            pass  # Do nothing for event 4
         elif event_id == 5:
             print("Lemmikki löytyi!")
             win = True
