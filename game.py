@@ -169,14 +169,9 @@ while not game_over:
             print("Lemmikki löytyi!")
             win = True
 
-
-
-
-
-
-
-
-
+    print('Your pet is in one of these airports:')
+    for i in range(len(all_airports)):
+        print(f'{i + 1}. {all_airports[i]["name"]}')
 
 
 
