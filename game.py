@@ -62,8 +62,6 @@ def new_game(player, place, t_limit, money, a_ports):
 
 airports = get_airports()
 
-new_game('Patrik', 'EFHK', 1000, 10000, airports)
-
 # Get information about airport
 def get_airport_info(icao):
     sql=f'''SELECT iso_country, ident, name, latitude_deg, longitude_deg
