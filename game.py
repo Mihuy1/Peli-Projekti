@@ -9,7 +9,7 @@ connection = mysql.connector.connect(
          port= 3306,
          database='flight_game',
          user='root',
-         password='6661507',
+         password='',
          autocommit=True
          )
 money = 10000
