@@ -8,10 +8,23 @@ connection = mysql.connector.connect(
          host='127.0.0.1',
          port= 3306,
          database='flight_game',
-         user='root',
-         password='',
+         user='patrik',
+         password='123',
          autocommit=True
          )
+
+
+class bcolors:
+    BLUE = '\033[94m'
+    CYAN = '\033[96m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+
 money = 10000
 p_range = money*4
 
@@ -91,26 +104,25 @@ def airports_in_range(icao, a_ports, p_range):
     return in_range
 
 def check_event(g_id, cur_airport):
-    sql = f'''SELECT events.id, event.id as event_id, events.game_id
-    FROM events
-    JOIN event ON event.id = events.event_id 
-    WHERE game_id = %s 
-    AND location = %s'''
+    sql = '''
+        SELECT events.id, event.id as event_id, event.min, event.max, events.game_id
+        FROM events
+        JOIN event ON event.id = events.event_id 
+        WHERE game_id = %s 
+        AND location = %s
+    '''
     cursor = connection.cursor(dictionary=True)
     cursor.execute(sql, (g_id, cur_airport))
     result = cursor.fetchone()
     if result is None:
-        return False
+        return None
     return result
-
 
 
 def update_location(g_id, name, icao, m, time):
     sql = '''UPDATE game SET name = %s, location = %s,  bank = %s, time = %s  WHERE id = %s'''
     cursor = connection.cursor(dictionary=True)
     cursor.execute(sql, (name, icao, money, time, g_id))
-
-
 
 storyDialog = input('Do you want to read the background story? (y/n): ')
 if storyDialog == 'y':
@@ -134,7 +146,7 @@ while True:
 # boolean for game over and win
 game_over = False
 win = False
-money = 10000
+money = 1000000
 p_range = money*4
 score = 0
 pet_found = False
@@ -154,7 +166,7 @@ game_over = False
 while not game_over:
     event = check_event(game_id, current_airport)
     airports = airports_in_range(current_airport, all_airports, p_range)
-    print(f'\033[34mThere are {len(airports)} airports in range: \033[0m')
+    print(f'{bcolors.BLUE}There are {len(airports)} airports in range: {bcolors.ENDC}')
 
     # Check if player is out of range
     if p_range < 0:
@@ -166,7 +178,7 @@ while not game_over:
 
     # Show game status
     print(f"You are at {airport[0]['ident']} ({airport[0]['name']}).")
-    print(f"You have {money:.0f}$ and {t_limit} hours left to find the {pet}.")
+    print(f'You have {bcolors.GREEN}{money:.0f}${bcolors.ENDC} and {bcolors.YELLOW}{t_limit}{bcolors.ENDC} hours left to find the {pet}.')
     input(f"Press Enter to continue: ")
     print('Your pet is in one of these airports: ')
 
@@ -184,29 +196,31 @@ while not game_over:
     # Check if pet is found and player is at start (game won)
     if win and current_airport == s_airport:
         print(f'You are at {airport[0]["name"]}.')
-        print(f'You have {money:.0f}$ and {t_limit} hours left to find a {pet}.')
+        print(f'You have {bcolors.GREEN}{money:.0f}${bcolors.ENDC} and {bcolors.YELLOW}{t_limit}{bcolors.ENDC} hours left to find the {pet}.')
         game_over = True
 
+    event = check_event(game_id, current_airport)
     if event:
-        event_id = event.get('id', None)
+        event_id = event.get('event_id', None)
+        min_value = event.get('min', 0)
+        max_value = event.get('max', 0)
 
         if event_id == 1:
-            if 'min' in event and 'max' in event:
-                money -= random.randrange(event['min'], event['max'],  100)
+            temp_money = random.randrange(min_value, max_value, 100)
+            money -= temp_money
+            print(f"You just lost {bcolors.RED}{bcolors.UNDERLINE}{temp_money}${bcolors.ENDC}!")
         elif event_id == 2:
-            print("Myrsky!")  # TODO: Hidasta seuraava lento
+            print(f"{bcolors.RED}Myrsky!{bcolors.ENDC}")  # TODO: Hidasta seuraava lento
         elif event_id == 3:
-            if 'min' in event and 'max' in event:
-                money += random.randint(event['min'], event['max'], 100)
+            temp_money = random.randrange(min_value, max_value, 100)
+            money += temp_money
+            print(f"You just got {bcolors.GREEN}{bcolors.UNDERLINE}{temp_money}${bcolors.ENDC}!")
         elif event_id == 4:
             pass  # Do nothing for event 4
         elif event_id == 5:
-            print("Lemmikki löytyi!")
+            print(f"You found the {bcolors.GREEN}{bcolors.UNDERLINE}{pet}{bcolors.ENDC}!")
             win = True
-
-    print('Your pet is in one of these airports:')
-    for i in range(len(all_airports)):
-        print(f'{i + 1}. {all_airports[i]["name"]}')
+        input("Press Enter to continue!")
 
 
 
