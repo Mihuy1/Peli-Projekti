@@ -112,8 +112,8 @@ def update_location(g_id, name, icao, m, time):
 
 
 
-storyDialog = input('Do you want to read the background story? (Y/N): ')
-if storyDialog == 'Y':
+storyDialog = input('Do you want to read the background story? (y/n): ')
+if storyDialog == 'y':
     for line in story.getStory():
         print(line)
 
@@ -121,7 +121,7 @@ print('When you are ready to start, ')
 player = input('type player name: ')
 t_limit = 0
 while True:
-    pet=input('What pet did you bring with you? Cat or dog?')
+    pet=input('What pet did you bring with you, a cat or a dog? ').lower()
     if pet == "cat":
         t_limit = 240
         break
@@ -149,57 +149,55 @@ current_airport = s_airport
 
 game_id = new_game(player, s_airport, t_limit, money, airports)
 
-# GAME LOOP
+game_over = False
+
 while not game_over:
     event = check_event(game_id, current_airport)
     airports = airports_in_range(current_airport, all_airports, p_range)
-    print(f'''\033[34mThere are {len(airports)} airports in range: \033[0m''')
-    if len(airports) == 0:
+    print(f'\033[34mThere are {len(airports)} airports in range: \033[0m')
+
+    # Check if player is out of range
+    if p_range < 0:
         print('You are out of range.')
         game_over = True
-    while not game_over:
-        # get current airport info
-        airport = get_airport_info(current_airport)
-        # show game status
-        print(f"You are at {airport[0]['ident']} ({airport[0]['name']}).")
-        print(f'''You have {money:.0f}$ and {t_limit} hours left to find a {pet}.''')
-        print('Your pet is in one of these airports:')
 
-        for i in range(len(all_airports)):
-            ap_distance = airport_distance(current_airport, all_airports[i]["ident"])
-            print(
-                f'{i + 1}. {all_airports[i]["name"]}, icao: {all_airports[i]["ident"]}, distance: {ap_distance:.0f}km)')
-        if p_range < 0:
-            game_over = True
-            # ask for destination
-        dest = input("Where do you want to go? ICAO:")
-        selected_distance = airport_distance(current_airport, dest)
-        money -= selected_distance/4
-        update_location(game_id, player, dest, money, t_limit)
-        current_airport = dest
-        if p_range < 0:
-            game_over = True
-    # if pet is found and player is at start, game is won
+    # Get current airport info
+    airport = get_airport_info(current_airport)
+
+    # Show game status
+    print(f"You are at {airport[0]['ident']} ({airport[0]['name']}).")
+    print(f"You have {money:.0f}$ and {t_limit} hours left to find the {pet}.")
+    input(f"Press Enter to continue: ")
+    print('Your pet is in one of these airports: ')
+
+    for i in range(len(all_airports)):
+        ap_distance = airport_distance(current_airport, all_airports[i]["ident"])
+        print(f'{i + 1}. {all_airports[i]["name"]}, icao: {all_airports[i]["ident"]}, distance: {ap_distance:.0f}km)')
+
+    # Ask for destination
+    dest = input("Where do you want to go? ICAO: ")
+    selected_distance = airport_distance(current_airport, dest)
+    money -= selected_distance / 4
+    update_location(game_id, player, dest, money, t_limit)
+    current_airport = dest
+
+    # Check if pet is found and player is at start (game won)
     if win and current_airport == s_airport:
         print(f'You are at {airport[0]["name"]}.')
         print(f'You have {money:.0f}$ and {t_limit} hours left to find a {pet}.')
         game_over = True
-
-
-
-
 
     if event:
         event_id = event.get('id', None)
 
         if event_id == 1:
             if 'min' in event and 'max' in event:
-                money -= random.randint(event['min'], event['max'])
+                money -= random.randrange(event['min'], event['max'],  100)
         elif event_id == 2:
-            print("Myrsky!") # TODO: Hidasta seuraava lento
+            print("Myrsky!")  # TODO: Hidasta seuraava lento
         elif event_id == 3:
             if 'min' in event and 'max' in event:
-                money += random.randint(event['min'], event['max'])
+                money += random.randint(event['min'], event['max'], 100)
         elif event_id == 4:
             pass  # Do nothing for event 4
         elif event_id == 5:
@@ -209,6 +207,7 @@ while not game_over:
     print('Your pet is in one of these airports:')
     for i in range(len(all_airports)):
         print(f'{i + 1}. {all_airports[i]["name"]}')
+
 
 
 
