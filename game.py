@@ -8,8 +8,8 @@ connection = mysql.connector.connect(
          host='127.0.0.1',
          port= 3306,
          database='flight_game',
-         user='patrik',
-         password='123',
+         user='root',
+         password='',
          autocommit=True
          )
 
@@ -143,10 +143,11 @@ while True:
     else:
         print('Sorry, you can only take a cat or a dog.')
 
+
 # boolean for game over and win
 game_over = False
 win = False
-money = 1000000
+money = 10000
 p_range = money*4
 score = 0
 pet_found = False
