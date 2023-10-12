@@ -8,8 +8,8 @@ connection = mysql.connector.connect(
          host='127.0.0.1',
          port= 3306,
          database='flight_game',
-         user='root',
-         password='',
+         user='patrik',
+         password='123',
          autocommit=True
          )
 
@@ -103,6 +103,8 @@ def airports_in_range(icao, a_ports, p_range):
             in_range.append(a_port)
     return in_range
 
+
+
 def check_event(g_id, cur_airport):
     sql = '''
         SELECT events.id, event.id as event_id, event.min, event.max, events.game_id
@@ -124,7 +126,9 @@ def update_location(g_id, name, icao, m, time):
     cursor = connection.cursor(dictionary=True)
     cursor.execute(sql, (name, icao, money, time, g_id))
 
+
 storyDialog = input('If you want to read the background story, enter y: ')
+
 if storyDialog == 'y':
     for line in story.getStory():
         print(line)
@@ -174,6 +178,7 @@ while not game_over:
         print('You are out of range.')
         game_over = True
 
+
     # Get current airport info
     airport = get_airport_info(current_airport)
 
@@ -183,9 +188,12 @@ while not game_over:
     input(f"Press Enter to continue: ")
     print('Your pet is in one of these airports: ')
 
-    for i in range(len(all_airports)):
-        ap_distance = airport_distance(current_airport, all_airports[i]["ident"])
-        print(f'{i + 1}. {all_airports[i]["name"]}, icao: {all_airports[i]["ident"]}, distance: {ap_distance:.0f}km')
+    sorted_airports = sorted(all_airports, key=lambda x: airport_distance(current_airport, x["ident"]))
+
+    # Print sorted airports
+    for i, airport in enumerate(sorted_airports):
+        ap_distance = airport_distance(current_airport, airport["ident"])
+        print(f'{i + 1}. {airport["name"]}, icao: {airport["ident"]}, distance: {ap_distance:.0f}km)')
 
     # Ask for destination
     print(f'You have money left for a {p_range} km flight.')
@@ -200,7 +208,7 @@ while not game_over:
     # Check if pet is found and player is at start (game won)
     if win and current_airport == s_airport:
         print(f'You are at {airport[0]["name"]}.')
-        print(f'You have {bcolors.GREEN}{money:.0f}${bcolors.ENDC} and {bcolors.YELLOW}{t_limit:.0f}{bcolors.ENDC} hours left to find the {pet}.')
+        print(f'You have {bcolors.GREEN}{money:.0f}${bcolors.ENDC} and {bcolors.YELLOW}{t_limit}{bcolors.ENDC} hours left to find the {pet}.')
         game_over = True
 
     event = check_event(game_id, current_airport)
@@ -212,6 +220,7 @@ while not game_over:
         if event_id == 1:
             temp_money = random.randrange(min_value, max_value, 100)
             money -= temp_money
+
             t_limit = t_limit - 10
             print(f"Customs check! You just lost {bcolors.RED}{bcolors.UNDERLINE}{temp_money}${bcolors.ENDC}and 10 hours!")
         elif event_id == 2:
@@ -221,9 +230,24 @@ while not game_over:
             temp_money = random.randrange(min_value, max_value, 100)
             money += temp_money
             print(f"Incoming money transfer received! You just got {bcolors.GREEN}{bcolors.UNDERLINE}{temp_money}${bcolors.ENDC}!")
+
         elif event_id == 4:
             pass  # Do nothing for event 4
         elif event_id == 5:
             print(f"You found the {bcolors.GREEN}{bcolors.UNDERLINE}{pet}{bcolors.ENDC}!")
             win = True
         input("Press Enter to continue!")
+
+
+
+    if money <= 0:
+        print(f"{bcolors.RED}{bcolors.BOLD}are out of money!{bcolors.ENDC}")
+        game_over = True
+
+
+
+
+
+
+
+
