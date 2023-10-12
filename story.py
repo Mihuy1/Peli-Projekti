@@ -1,12 +1,12 @@
 import textwrap
 
-story = '''Kauan odotettu kesä on saapunut!
-Vuoden ajan olette säästäneet rahaa voidaksenne matkustaa.
-Ette voineet jättää rakasta lemmikkiänne yksin, joten otitte sen mukaanne.
-Lentokentällä koneeseen noustessanne teidän täytyi jättää se ruumaan.
-Mutta kun laskeuduitte, kauhuksenne huomasitte, että lemmikkienne ei ollutkaan samassa lennossa kanssanne.
-Se oli erehdyksen vuoksi lähetetty johonkin toiseen samanaikaiseen lentoosi.
-Nyt teidän täytyy löytää se mahdollisimman nopeasti, vaikka se vaatisikin kaikkien lomansäästöjen käyttämistä.'''
+story = '''The long-awaited summer has arrived!
+For a year, you've been saving money to travel.
+You couldn't leave your beloved pet alone, so you took it with you.
+At the airport, as you boarded the plane, you had to leave it in the cargo hold.
+But upon landing, to your horror, you realized that your pet was on a different flight.
+Due to an error, it was sent on another flight at the same time.
+Now you have to find it as quickly as possible, even if it means using all your vacation savings.'''
 
 wrapper = textwrap.TextWrapper(width=80, break_long_words=False, replace_whitespace=False)
 word_list = wrapper.wrap(text=story)
