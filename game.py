@@ -73,10 +73,6 @@ def new_game(player, place, t_limit, money, a_ports):
         cursor.execute(sql, (e_ports[i]['ident'], event_id, g_id))
     return g_id
 
-
-
-airports = get_airports()
-
 # Get information about airport
 def get_airport_info(icao):
     sql=f'''SELECT iso_country, ident, name, latitude_deg, longitude_deg
@@ -159,12 +155,12 @@ pet_found = False
 # all airports
 all_airports = get_airports()
 # start_airport ident
-s_airport = airports[0]['ident']
+s_airport = all_airports[0]['ident']
 
 # current airport
 current_airport = s_airport
 
-game_id = new_game(player, s_airport, t_limit, money, airports)
+game_id = new_game(player, s_airport, t_limit, money, all_airports)
 
 game_over = False
 
@@ -185,7 +181,7 @@ while not game_over:
     # Show game status
     print(f"You are at {airport[0]['ident']} ({airport[0]['name']}).")
     print(f'You have {bcolors.GREEN}{money:.0f}${bcolors.ENDC} and {bcolors.YELLOW}{t_limit}{bcolors.ENDC} hours left to find the {pet}.')
-    input(f"Press Enter to continue: ")
+    input(f"{bcolors.CYAN}Press Enter to continue: {bcolors.ENDC}")
     print('Your pet is in one of these airports: ')
 
     sorted_airports = sorted(all_airports, key=lambda x: airport_distance(current_airport, x["ident"]))
@@ -223,7 +219,7 @@ while not game_over:
             money -= temp_money
 
             t_limit = t_limit - 10
-            print(f"Customs check! You just lost {bcolors.RED}{bcolors.UNDERLINE}{temp_money}${bcolors.ENDC}and 10 hours!")
+            print(f"Customs check! You just lost {bcolors.RED}{bcolors.UNDERLINE}{temp_money}${bcolors.ENDC} and {bcolors.YELLOW}10{bcolors.ENDC} hours!")
         elif event_id == 2:
             print(f"{bcolors.RED}Storm! Your next flight is delayed.{bcolors.ENDC}")
             t_limit -= 20
@@ -237,7 +233,7 @@ while not game_over:
         elif event_id == 5:
             print(f"You found the {bcolors.GREEN}{bcolors.UNDERLINE}{pet}{bcolors.ENDC}!")
             win = True
-        input("Press Enter to continue!")
+        input(f"{bcolors.CYAN}Press Enter to continue!{bcolors.ENDC}")
 
     if money <= 0:
         print(f"{bcolors.RED}{bcolors.BOLD}You are out of money!{bcolors.ENDC}")
