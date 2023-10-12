@@ -126,7 +126,9 @@ def update_location(g_id, name, icao, m, time):
     cursor = connection.cursor(dictionary=True)
     cursor.execute(sql, (name, icao, money, time, g_id))
 
-storyDialog = input('Do you want to read the background story? (y/n): ').lower()
+
+storyDialog = input('If you want to read the background story, enter y: ')
+
 if storyDialog == 'y':
     for line in story.getStory():
         print(line)
@@ -176,6 +178,7 @@ while not game_over:
         print('You are out of range.')
         game_over = True
 
+
     # Get current airport info
     airport = get_airport_info(current_airport)
 
@@ -193,9 +196,12 @@ while not game_over:
         print(f'{i + 1}. {airport["name"]}, icao: {airport["ident"]}, distance: {ap_distance:.0f}km)')
 
     # Ask for destination
-    dest = input("Where do you want to go? ICAO: ")
+    print(f'You have money left for a {p_range} km flight.')
+    dest = input(f'Where do you want to go? ICAO: ')
     selected_distance = airport_distance(current_airport, dest)
-    money -= selected_distance / 4
+    money -= selected_distance // 4
+    t_limit -= selected_distance // 1000
+    p_range = money * 4
     update_location(game_id, player, dest, money, t_limit)
     current_airport = dest
 
@@ -214,13 +220,17 @@ while not game_over:
         if event_id == 1:
             temp_money = random.randrange(min_value, max_value, 100)
             money -= temp_money
-            print(f"You just lost {bcolors.RED}{bcolors.UNDERLINE}{temp_money}${bcolors.ENDC}!")
+
+            t_limit = t_limit - 10
+            print(f"Customs check! You just lost {bcolors.RED}{bcolors.UNDERLINE}{temp_money}${bcolors.ENDC}and 10 hours!")
         elif event_id == 2:
-            print(f"{bcolors.RED}Myrsky!{bcolors.ENDC}")  # TODO: Hidasta seuraava lento
+            print(f"{bcolors.RED}Storm! Your next flight is delayed.{bcolors.ENDC}")
+            t_limit -= 20
         elif event_id == 3:
             temp_money = random.randrange(min_value, max_value, 100)
             money += temp_money
-            print(f"You just got {bcolors.GREEN}{bcolors.UNDERLINE}{temp_money}${bcolors.ENDC}!")
+            print(f"Incoming money transfer received! You just got {bcolors.GREEN}{bcolors.UNDERLINE}{temp_money}${bcolors.ENDC}!")
+
         elif event_id == 4:
             pass  # Do nothing for event 4
         elif event_id == 5:
@@ -228,9 +238,12 @@ while not game_over:
             win = True
         input("Press Enter to continue!")
 
+
+
     if money <= 0:
         print(f"{bcolors.RED}{bcolors.BOLD}are out of money!{bcolors.ENDC}")
         game_over = True
+
 
 
 
