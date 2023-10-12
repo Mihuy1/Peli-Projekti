@@ -8,8 +8,8 @@ connection = mysql.connector.connect(
          host='127.0.0.1',
          port= 3306,
          database='flight_game',
-         user='patrik',
-         password='123',
+         user='root',
+         password='',
          autocommit=True
          )
 
@@ -193,7 +193,8 @@ while not game_over:
     # Print sorted airports
     for i, airport in enumerate(sorted_airports):
         ap_distance = airport_distance(current_airport, airport["ident"])
-        print(f'{i + 1}. {airport["name"]}, icao: {airport["ident"]}, distance: {ap_distance:.0f}km)')
+        if ap_distance < p_range:
+            print(f'{i + 1}. {airport["name"]}, icao: {airport["ident"]}, distance: {ap_distance:.0f}km)')
 
     # Ask for destination
     print(f'You have money left for a {p_range} km flight.')
@@ -238,10 +239,8 @@ while not game_over:
             win = True
         input("Press Enter to continue!")
 
-
-
     if money <= 0:
-        print(f"{bcolors.RED}{bcolors.BOLD}are out of money!{bcolors.ENDC}")
+        print(f"{bcolors.RED}{bcolors.BOLD}You are out of money!{bcolors.ENDC}")
         game_over = True
 
 
