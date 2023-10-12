@@ -8,8 +8,8 @@ connection = mysql.connector.connect(
          host='127.0.0.1',
          port= 3306,
          database='flight_game',
-         user='root',
-         password='',
+         user='patrik',
+         password='123',
          autocommit=True
          )
 
@@ -103,6 +103,8 @@ def airports_in_range(icao, a_ports, p_range):
             in_range.append(a_port)
     return in_range
 
+
+
 def check_event(g_id, cur_airport):
     sql = '''
         SELECT events.id, event.id as event_id, event.min, event.max, events.game_id
@@ -124,7 +126,7 @@ def update_location(g_id, name, icao, m, time):
     cursor = connection.cursor(dictionary=True)
     cursor.execute(sql, (name, icao, money, time, g_id))
 
-storyDialog = input('Do you want to read the background story? (y/n): ')
+storyDialog = input('Do you want to read the background story? (y/n): ').lower()
 if storyDialog == 'y':
     for line in story.getStory():
         print(line)
@@ -183,9 +185,12 @@ while not game_over:
     input(f"Press Enter to continue: ")
     print('Your pet is in one of these airports: ')
 
-    for i in range(len(all_airports)):
-        ap_distance = airport_distance(current_airport, all_airports[i]["ident"])
-        print(f'{i + 1}. {all_airports[i]["name"]}, icao: {all_airports[i]["ident"]}, distance: {ap_distance:.0f}km)')
+    sorted_airports = sorted(all_airports, key=lambda x: airport_distance(current_airport, x["ident"]))
+
+    # Print sorted airports
+    for i, airport in enumerate(sorted_airports):
+        ap_distance = airport_distance(current_airport, airport["ident"])
+        print(f'{i + 1}. {airport["name"]}, icao: {airport["ident"]}, distance: {ap_distance:.0f}km)')
 
     # Ask for destination
     dest = input("Where do you want to go? ICAO: ")
@@ -222,6 +227,10 @@ while not game_over:
             print(f"You found the {bcolors.GREEN}{bcolors.UNDERLINE}{pet}{bcolors.ENDC}!")
             win = True
         input("Press Enter to continue!")
+
+    if money <= 0:
+        print(f"{bcolors.RED}{bcolors.BOLD}are out of money!{bcolors.ENDC}")
+        game_over = True
 
 
 
