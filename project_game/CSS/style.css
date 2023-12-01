@@ -1,0 +1,79 @@
+@font-face {
+    font-family: Roboto;
+    src: url("Roboto-Medium.ttf") format("truetype");
+}
+
+body {
+    background-image: url("ShinyOverlay.svg");
+    font-family: Roboto, sans-serif;
+    width:100%;
+    margin:0;
+
+}
+
+.nav {
+    background-color: steelblue;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    width: auto;
+    align-items: center;
+    border-style: solid;
+    border-width: medium;
+    border-color: #86989B;
+}
+.nav a {
+    color: #000000;
+    text-decoration: none;
+    margin-left: 1rem;
+}
+.game {
+    width: 50%;
+    margin-left: 2rem;
+    font-size: 200%;
+    max-width: 100%;
+}
+
+
+.map{
+    display: flex;
+    margin-left: 1rem;
+    margin-right: auto;
+}
+
+h3 {
+    text-align: left;
+    margin-left: 13rem;
+}
+
+main p {
+    text-align: right;
+    margin-right: 10rem;
+}
+
+iframe {
+    margin-bottom: 1rem;
+    margin-left: 2rem;
+}
+
+figure p {
+    margin-left: 2rem;
+}
+
+.block {
+    display: flex;
+    width: 40rem;
+    border-style: solid;
+    border-width: medium;
+    border-color: #86989B;
+    margin: 1rem;
+    background-color: steelblue;
+    padding: 1rem 2rem;
+    font-size: 100%;
+    cursor: pointer;
+    text-align: center;
+}
+
+
+
+
