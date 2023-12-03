@@ -8,7 +8,11 @@ body {
     font-family: Roboto, sans-serif;
     width:100%;
     margin:0;
+}
 
+.container {
+    width: 100%;
+    position: relative;
 }
 
 .nav {
@@ -34,16 +38,26 @@ body {
     max-width: 100%;
 }
 
-
-.map{
+.flex-wrap {
     display: flex;
+    flex-wrap: wrap;
+}
+
+.space-evenly {
+    justify-content: space-evenly;
+}
+
+#map{
+    margin-top: 1rem;
     margin-left: 1rem;
-    margin-right: auto;
+    height: 40vh;
+    width: 40%;
+    overflow: hidden;
 }
 
 .airport-button {
     height: 29rem;
-    overflow-y: auto;
+    width: 59%;
 }
 
 h3 {
