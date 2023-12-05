@@ -28,6 +28,8 @@ body {
     margin-left: 1rem;
 }
 .game {
+    display: flex;
+    flex-wrap: wrap;
     width: 100%;
     margin-left: 2rem;
     font-size: 100%;
@@ -41,7 +43,7 @@ h3 {
 .container {
     display: flex;
 }
-.map{
+#map{
     width: 50%;
     margin: 0.5rem;
 }
@@ -54,6 +56,9 @@ main p {
 
 #tab {
     margin-left: 4rem;
+    border-width: 0.2rem;
+    border-radius: 4px;
+    border-style: solid;
 }
 #name {
     text-align: center;
