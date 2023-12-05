@@ -72,3 +72,13 @@ p {
 .gameplay-header {
     margin-top: 15rem;
 }
+
+.page-footer {
+    text-align: center;
+}
+
+.page-footer {
+    background-color: steelblue;
+    padding: 2rem;
+    margin-top: 15rem;
+}
