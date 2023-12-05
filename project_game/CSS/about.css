@@ -57,13 +57,18 @@ p {
 }
 
 .lead-img {
-    width: 150px;
-    height: 150px;
-    margin: 0 0 1rem 0;
+    width: 256px;
+    height: 300px;
+    margin-right: 1rem;
+    float: left;
 }
 
 
 .gameplay {
     display: flex;
     justify-content: space-between;
+}
+
+.gameplay-header {
+    margin-top: 15rem;
 }
