@@ -99,6 +99,16 @@ td {
     text-align: center;
 }
 
+.page-footer {
+    text-align: center;
+}
+
+.page-footer {
+    background-color: steelblue;
+    padding: 2rem;
+    margin-top: 15rem;
+}
+
 
 
 
