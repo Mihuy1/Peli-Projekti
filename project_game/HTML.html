@@ -7,13 +7,17 @@
     <link href="CSS/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"/>
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" defer></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="JS/main.js" defer></script>
 </head>
 <body>
 <div class="nav">
     <div class="game">
+        <p class="prints">&#128062;</p>
         <h1>Tassunjäljet lentokentalla</h1>
-        <nav>
+        <p class="prints">&#128062;</p>
+        <nav id="navigation">
             <ul>
                 <li>
                     <a href="HTML.html">Game</a>
@@ -30,8 +34,7 @@
                     <td>Money: <span id="money">9000</span> €</td>
                     <td>Distance: <span id="dist">18000</span> km</td>
                 </tr>
-            </table>
-
+        </table>
     </div>
 
 </div>
