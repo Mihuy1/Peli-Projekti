@@ -11,27 +11,38 @@ body {
 
 }
 
-.nav {
-    background-color: steelblue;
-    padding: 1rem;
-    display: flex;
-    justify-content: space-between;
-    width: auto;
-    align-items: center;
-    border-style: solid;
-    border-width: medium;
-    border-color: #86989B;
+.prints {
+    font-size: xxx-large;
+    margin-block-start: 0;
+    margin-block-end: 0;
 }
-.nav a {
+
+
+.game a {
     color: #000000;
     text-decoration: none;
     margin-left: 1rem;
 }
+
+ul {
+    list-style-type: none;
+    padding-inline-start: 0.2rem;
+}
+
+#navigation {
+    text-align: center;
+}
+
 .game {
-    width: 100%;
-    margin-left: 2rem;
+    display: flex;
+    flex-wrap: wrap;
     font-size: 100%;
-    max-width: 100%;
+    background-color: steelblue;
+    padding: 1rem;
+    justify-content: space-evenly;
+    border-style: solid;
+    border-width: medium;
+    border-color: #86989B;
 }
 h3 {
     width: 45%;
@@ -41,7 +52,7 @@ h3 {
 .container {
     display: flex;
 }
-.map{
+#map{
     width: 50%;
     margin: 0.5rem;
 }
@@ -53,7 +64,13 @@ main p {
 }
 
 #tab {
-    margin-left: 4rem;
+    border-width: 0.2rem;
+    border-radius: 4px;
+}
+td {
+    border: solid;
+    border-color: #86989B;
+
 }
 #name {
     text-align: center;
@@ -82,6 +99,12 @@ main p {
     text-align: center;
 }
 
+.page-footer {
+    text-align: center;
+}
 
-
-
+.page-footer {
+    background-color: steelblue;
+    padding: 2rem;
+    margin-top: 15rem;
+}
