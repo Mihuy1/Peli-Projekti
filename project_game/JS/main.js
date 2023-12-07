@@ -6,6 +6,7 @@ L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
 }).addTo(map);
 map.setView([60, 24], 7);
 
+
 const data = 'http://127.0.0.1:5000/get_airports';
 // form for player name
 
@@ -17,6 +18,7 @@ async function getData() {
         console.log(responseData);
 }
 getData();
+
 // function to update game status
 
 // function show weather at selected airport

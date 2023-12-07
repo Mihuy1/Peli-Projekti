@@ -1,3 +1,4 @@
+
 import json
 import random
 from database import Database
@@ -13,17 +14,18 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 money = 10000
 @app.route('/get_airports')
+
 def get_airports():
     sql = """SELECT iso_country, ident, name, type, latitude_deg, longitude_deg
     FROM airport
     WHERE type='large_airport'
     ORDER by RAND()
-    LIMIT 21;"""                                  #?
+    LIMIT 21;"""                                  
     cursor = db.get_conn().cursor(dictionary=True)
     cursor.execute(sql)
     result = cursor.fetchall()
     return json.dumps(result)
-"""@app.route('/get_events')
+    @app.route('/get_events')
 def get_events():
     sql = "SELECT * FROM event;"
     cursor = db.get_conn().cursor(dictionary=True)
@@ -32,9 +34,25 @@ def get_events():
     return json.dumps(result)
 
 
-def new_game(player, place, t_limit, money, a_ports):"""
+def new_game(player, place, t_limit, money, a_ports):
     #sql = """INSERT INTO game (name, location, time, bank) VALUES (%s, %s, %s, %s);"""
-"""cursor = db.get_conn().cursor(dictionary=True)
+    cursor = db.get_conn().cursor(dictionary=True)
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    return result
+
+def get_events():
+    sql = "SELECT * FROM event;"
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    return result
+
+
+def new_game(player, place, t_limit, money, a_ports):
+    sql = """INSERT INTO game (name, location, time, bank) VALUES (%s, %s, %s, %s);"""
+    cursor = connection.cursor(dictionary=True)
     cursor.execute(sql, (player, place, t_limit, money))
     g_id = cursor.lastrowid
 
@@ -58,11 +76,13 @@ def new_game(player, place, t_limit, money, a_ports):"""
         cursor.execute(sql, (e_ports[i]['ident'], event_id, g_id))
     return json.dumps(g_id)
 
+
 # Get information about airport
 def get_airport_info(icao):
     sql=f'''SELECT iso_country, ident, name, latitude_deg, longitude_deg
             FROM airport
             WHERE ident = %s'''
+
     cursor = db.get_conn().cursor(dictionary=True)
     cursor.execute(sql, (icao,))
     result = cursor.fetchall()
@@ -74,6 +94,7 @@ def airport_distance(current, target):
     end = get_airport_info(target)[0]  # Access the first (and only) item in the list
     start_coords = (start['latitude_deg'], start['longitude_deg'])
     end_coords = (end['latitude_deg'], end['longitude_deg'])
+
     return json.dumps(distance.distance(start_coords, end_coords).km)
 
 def airports_in_range(icao, a_ports, p_range):
@@ -82,6 +103,7 @@ def airports_in_range(icao, a_ports, p_range):
         dist = airport_distance(icao, a_port['ident'])
         if dist <= p_range and not dist == 0:
             in_range.append(a_port)
+
     return json.dumps(in_range)
 
 
@@ -99,6 +121,7 @@ def check_event(g_id, cur_airport):
     result = cursor.fetchone()
     if result is None:
         return None
+
     return json.dumps(result)
 
 
@@ -106,7 +129,6 @@ def update_location(g_id, name, icao, m, time):
     sql = '''UPDATE game SET name = %s, location = %s,  bank = %s, time = %s  WHERE id = %s'''
     cursor = db.get_conn().cursor(dictionary=True)
     cursor.execute(sql, (name, icao, money, time, g_id))"""
-
 #t_limit = 0
 #while True:
     #pet=input('What pet did you bring with you, a cat or a dog? ').lower()
@@ -141,6 +163,52 @@ def update_location(g_id, name, icao, m, time):
 #game_over = False
 
 """while not game_over:
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute(sql, (name, icao, money, time, g_id))
+
+
+storyDialog = input('If you want to read the background story, enter y: ')
+
+if storyDialog == 'y':
+    for line in story.getStory():
+        print(line)
+
+print('When you are ready to start, ')
+player = input('type player name: ')
+t_limit = 0
+while True:
+    pet=input('What pet did you bring with you, a cat or a dog? ').lower()
+    if pet == "cat":
+        t_limit = 240
+        break
+    elif pet == "dog":
+        t_limit = 168
+        break
+    else:
+        print('Sorry, you can only take a cat or a dog.')
+
+
+# boolean for game over and win
+game_over = False
+win = False
+money = 10000
+p_range = money*4
+score = 0
+pet_found = False
+
+# all airports
+all_airports = get_airports()
+# start_airport ident
+s_airport = all_airports[0]['ident']
+
+# current airport
+current_airport = s_airport
+
+game_id = new_game(player, s_airport, t_limit, money, all_airports)
+
+game_over = False
+
+while not game_over:
     event = check_event(game_id, current_airport)
     airports = airports_in_range(current_airport, all_airports, p_range)
     print(f'{bcolors.BLUE}There are {len(airports)} airports in range: {bcolors.ENDC}')
@@ -217,3 +285,4 @@ def update_location(g_id, name, icao, m, time):
 
 if __name__ == '__main__':
     app.run(use_reloader=True, host='127.0.0.1', port=5000)
+

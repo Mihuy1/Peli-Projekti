@@ -70,7 +70,9 @@ p {
 }
 
 .gameplay-header {
+
     margin-top: 15rem;
+
 }
 
 .page-footer {
@@ -80,5 +82,7 @@ p {
 .page-footer {
     background-color: steelblue;
     padding: 2rem;
-    margin-top: 15rem;
+
+    margin-top: 25rem;
+
 }
