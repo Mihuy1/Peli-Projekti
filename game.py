@@ -23,7 +23,7 @@ def get_airports():
     cursor.execute(sql)
     result = cursor.fetchall()
     return json.dumps(result)
-"""@app.route('/get_events')
+@app.route('/get_events')
 def get_events():
     sql = "SELECT * FROM event;"
     cursor = db.get_conn().cursor(dictionary=True)
@@ -31,10 +31,10 @@ def get_events():
     result = cursor.fetchall()
     return json.dumps(result)
 
-
-def new_game(player, place, t_limit, money, a_ports):"""
-    #sql = """INSERT INTO game (name, location, time, bank) VALUES (%s, %s, %s, %s);"""
-"""cursor = db.get_conn().cursor(dictionary=True)
+@app.route('/new_game')
+def new_game(player, place, t_limit, money, a_ports):
+    sql = """INSERT INTO game (name, location, time, bank) VALUES (%s, %s, %s, %s);"""
+    cursor = db.get_conn().cursor(dictionary=True)
     cursor.execute(sql, (player, place, t_limit, money))
     g_id = cursor.lastrowid
 
@@ -69,6 +69,7 @@ def get_airport_info(icao):
 
     return json.dumps(result)
 
+@app.route('/airport_distance')
 def airport_distance(current, target):
     start = get_airport_info(current)[0]  # Access the first (and only) item in the list
     end = get_airport_info(target)[0]  # Access the first (and only) item in the list
@@ -76,6 +77,7 @@ def airport_distance(current, target):
     end_coords = (end['latitude_deg'], end['longitude_deg'])
     return json.dumps(distance.distance(start_coords, end_coords).km)
 
+@app.route('/airports_in_range')
 def airports_in_range(icao, a_ports, p_range):
     in_range = []
     for a_port in a_ports:
@@ -85,7 +87,7 @@ def airports_in_range(icao, a_ports, p_range):
     return json.dumps(in_range)
 
 
-
+@app.route('/check_event')
 def check_event(g_id, cur_airport):
     sql = '''
         SELECT events.id, event.id as event_id, event.min, event.max, events.game_id
@@ -101,11 +103,11 @@ def check_event(g_id, cur_airport):
         return None
     return json.dumps(result)
 
-
+@app.route('/update_location')
 def update_location(g_id, name, icao, m, time):
     sql = '''UPDATE game SET name = %s, location = %s,  bank = %s, time = %s  WHERE id = %s'''
     cursor = db.get_conn().cursor(dictionary=True)
-    cursor.execute(sql, (name, icao, money, time, g_id))"""
+    cursor.execute(sql, (name, icao, money, time, g_id))
 
 #t_limit = 0
 #while True:
@@ -121,24 +123,20 @@ def update_location(g_id, name, icao, m, time):
 
 
 # boolean for game over and win
-#game_over = False
-#win = False
-#money = 10000
-#p_range = money*4
-#score = 0
-#pet_found = False
+game_over = False
+win = False
+money = 10000
+p_range = money*4
+score = 0
+pet_found = False
 
 # all airports
-#all_airports = get_airports()
+all_airports = get_airports()
 # start_airport ident
-#s_airport = all_airports[0]['ident']
 
 # current airport
-#current_airport = s_airport
 
-#game_id = new_game(player, s_airport, t_limit, money, all_airports)
-
-#game_over = False
+game_over = False
 
 """while not game_over:
     event = check_event(game_id, current_airport)
