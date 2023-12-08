@@ -51,6 +51,8 @@ h3 {
 }
 .container {
     display: flex;
+    width: 100%;        
+    position: relative; 
 }
 #map{
     width: 50%;
@@ -99,16 +101,44 @@ td {
     text-align: center;
 }
 
-.page-footer {
-    text-align: center;
-}
+.hide {                                     
+    display: none;                          
+}                                           
+                                            
+.win {                                      
+    background-image: url("paw.jpg");       
+    background-size: contain;               
+    margin: auto;                           
+    background-repeat: no-repeat;           
+    padding: 9rem 7rem;                     
+    position: absolute;                     
+    bottom: 30%;                            
+                                            
+}                                           
 
-.page-footer {
-    background-color: steelblue;
-    padding: 2rem;
-    margin-top: 15rem;
-}
-
-
-
-
+.page-footer {                     
+    text-align: center;            
+}                                  
+                                   
+.page-footer {                     
+    background-color: steelblue;   
+    padding: 2rem;                 
+    margin-top: 15rem;             
+}                                  
+#player-modal {                    
+    width: 100vw;                  
+    height: 100vh;                 
+    position: absolute;            
+    top: 0;                        
+}                                  
+                                   
+#player-form {                     
+    display: flex;                 
+    width: 40%;                    
+    margin: 4rem auto;             
+    flex-direction: column;        
+}                                  
+                                   
+#player-form input {               
+    padding: 1rem;                 
+}                                  

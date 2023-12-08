@@ -7,18 +7,17 @@ L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
 map.setView([60, 24], 7);
 
 
+const data = 'http://127.0.0.1:5000/get_airports';
 // form for player name
 
 // function to fetch data from API
-async function fetchData(data) {
-        const response = await fetch(data);
-
-        if (!response.ok) throw new Error('Invalid server input!');
-
-        const responseData = await response.json();
-
-        return responseData;
+async function getData() {
+  const response = await fetch(data);
+  if (!response.ok) throw new Error('Invalid server input!');
+  const responseData = await response.json();
+        console.log(responseData);
 }
+getData();
 
 // function to update game status
 
