@@ -1,4 +1,4 @@
-const api = "05e56269e9c5575ff8e56b4e16913e7e"
+// api here
 
 async function getWeatherData(lat, lon) {
     try {
